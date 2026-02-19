@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   ArrowLeftIcon,
@@ -17,16 +16,20 @@ import {
 } from "@/lib/constants";
 import { useAutoServicio } from "@/lib/useAutoServicio";
 import {
+  useRecordTransaction,
+  type TransactionBody,
+} from "@/lib/useRecordTransaction";
+import {
   BASKET_SIZES,
   PRICES,
   type CustomerType,
   type PaymentMethod,
 } from "@/lib/types";
+import { TransactionErrorAlert } from "@/components/TransactionErrorAlert";
 
 type Step = "customer" | "size" | "payment" | "confirm";
 
 export default function PurchasePage() {
-  const router = useRouter();
   const { isAutoServicio } = useAutoServicio();
   const [step, setStep] = useState<Step>("customer");
   const [customerType, setCustomerType] = useState<CustomerType | null>(null);
@@ -36,6 +39,7 @@ export default function PurchasePage() {
     null
   );
   const [matriculaError, setMatriculaError] = useState(false);
+  const { recordAndNavigate, error: transactionError, setError: setTransactionError, isSubmitting } = useRecordTransaction();
 
   const amount =
     customerType && basketSize ? PRICES[customerType][basketSize] : 0;
@@ -49,19 +53,19 @@ export default function PurchasePage() {
 
   const handleFinish = (effectiveMethod?: PaymentMethod) => {
     const method = effectiveMethod ?? paymentMethod ?? (isAutoServicio ? "TRANSFER" : null);
-    if (!method) return;
-    const params = new URLSearchParams({
+    if (!method || !basketSize) return;
+    const body: TransactionBody = {
       flow: "purchase",
-      balls: String(basketSize!),
-      amount: String(amount),
+      balls: basketSize,
+      amount,
       customerType: customerType!,
       paymentMethod: method,
-    });
+      idempotencyKey: crypto.randomUUID(),
+    };
     if (customerType === "SOCIO" && associateNumber.trim()) {
-      params.set("associateNumber", associateNumber.trim());
+      body.associateNumber = associateNumber.trim();
     }
-    params.set("idempotencyKey", crypto.randomUUID());
-    router.push(`/thank-you?${params.toString()}`);
+    recordAndNavigate(body);
   };
 
   return (
@@ -298,12 +302,20 @@ export default function PurchasePage() {
                         </p>
                       </div>
                     )}
+                    {transactionError && (
+                      <TransactionErrorAlert
+                        error={transactionError}
+                        onDismiss={() => setTransactionError(null)}
+                        className="mt-4"
+                      />
+                    )}
                     <button
                       type="button"
                       onClick={() => handleFinish(effectivePaymentMethod)}
-                      className="mt-4 w-full rounded-xl bg-amber-600 px-4 py-4 font-medium text-white transition hover:bg-amber-500"
+                      disabled={isSubmitting}
+                      className="mt-4 w-full rounded-xl bg-amber-600 px-4 py-4 font-medium text-white transition hover:bg-amber-500 disabled:opacity-70 disabled:pointer-events-none"
                     >
-                      Confirmar venta
+                      {isSubmitting ? "Guardando…" : "Confirmar venta"}
                     </button>
                     <Link
                       href="/"
@@ -353,12 +365,20 @@ export default function PurchasePage() {
                     </p>
                   </div>
                 )}
+                {transactionError && (
+                  <TransactionErrorAlert
+                    error={transactionError}
+                    onDismiss={() => setTransactionError(null)}
+                    className="mt-4"
+                  />
+                )}
                 <button
                   type="button"
                   onClick={() => handleFinish(effectivePaymentMethod)}
-                  className="mt-4 w-full rounded-xl bg-amber-600 px-4 py-4 font-medium text-white transition hover:bg-amber-500"
+                  disabled={isSubmitting}
+                  className="mt-4 w-full rounded-xl bg-amber-600 px-4 py-4 font-medium text-white transition hover:bg-amber-500 disabled:opacity-70 disabled:pointer-events-none"
                 >
-                  Confirmar venta
+                  {isSubmitting ? "Guardando…" : "Confirmar venta"}
                 </button>
                 <Link
                   href="/"

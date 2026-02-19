@@ -1,22 +1,22 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { APP_NAME, SPORTCLUB_BALLS } from "@/lib/constants";
+import { useRecordTransaction } from "@/lib/useRecordTransaction";
+import { TransactionErrorAlert } from "@/components/TransactionErrorAlert";
 
 export default function SportClubPage() {
-  const router = useRouter();
+  const { recordAndNavigate, error, setError, isSubmitting } = useRecordTransaction();
 
   const handleConfirm = () => {
-    const params = new URLSearchParams({
+    recordAndNavigate({
       flow: "sportclub",
-      balls: String(SPORTCLUB_BALLS),
-      amount: "0",
+      balls: SPORTCLUB_BALLS,
+      amount: 0,
+      idempotencyKey: crypto.randomUUID(),
     });
-    params.set("idempotencyKey", crypto.randomUUID());
-    router.push(`/thank-you?${params.toString()}`);
   };
 
   return (
@@ -51,12 +51,20 @@ export default function SportClubPage() {
             <strong className="text-white">{SPORTCLUB_BALLS} pelotas gratis</strong>. <br/><br/>Escaneá el QR con tu <strong>App de SportClub</strong> y
             confirmá en caja.
           </p>
+          {error && (
+            <TransactionErrorAlert
+              error={error}
+              onDismiss={() => setError(null)}
+              className="mt-6"
+            />
+          )}
           <button
             type="button"
             onClick={handleConfirm}
-            className="mt-8 w-full rounded-xl bg-amber-600 px-6 py-5 text-lg font-semibold text-white transition hover:bg-amber-500 md:mt-10 md:py-6 md:text-xl"
+            disabled={isSubmitting}
+            className="mt-8 w-full rounded-xl bg-amber-600 px-6 py-5 text-lg font-semibold text-white transition hover:bg-amber-500 md:mt-10 md:py-6 md:text-xl disabled:opacity-70 disabled:pointer-events-none"
           >
-            Confirmar 30 pelotas gratis
+            {isSubmitting ? "Guardando…" : "Confirmar 30 pelotas gratis"}
           </button>
           <Link
             href="/"

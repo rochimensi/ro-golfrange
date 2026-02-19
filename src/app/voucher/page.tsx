@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   TicketIcon,
@@ -8,18 +7,19 @@ import {
   InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { APP_NAME, VOUCHER_BALLS } from "@/lib/constants";
+import { useRecordTransaction } from "@/lib/useRecordTransaction";
+import { TransactionErrorAlert } from "@/components/TransactionErrorAlert";
 
 export default function VoucherPage() {
-  const router = useRouter();
+  const { recordAndNavigate, error, setError, isSubmitting } = useRecordTransaction();
 
   const handleRedeem = () => {
-    const params = new URLSearchParams({
+    recordAndNavigate({
       flow: "voucher",
-      balls: String(VOUCHER_BALLS),
-      amount: "0",
+      balls: VOUCHER_BALLS,
+      amount: 0,
+      idempotencyKey: crypto.randomUUID(),
     });
-    params.set("idempotencyKey", crypto.randomUUID());
-    router.push(`/thank-you?${params.toString()}`);
   };
 
   return (
@@ -61,12 +61,20 @@ export default function VoucherPage() {
               </p>
             </div>
           </div>
+          {error && (
+            <TransactionErrorAlert
+              error={error}
+              onDismiss={() => setError(null)}
+              className="mt-6"
+            />
+          )}
           <button
             type="button"
             onClick={handleRedeem}
-            className="mt-8 w-full rounded-xl bg-amber-600 px-4 py-4 font-medium text-white transition hover:bg-amber-500"
+            disabled={isSubmitting}
+            className="mt-8 w-full rounded-xl bg-amber-600 px-4 py-4 font-medium text-white transition hover:bg-amber-500 disabled:opacity-70 disabled:pointer-events-none"
           >
-            Canjear 20 pelotas gratis
+            {isSubmitting ? "Guardando…" : "Canjear 20 pelotas gratis"}
           </button>
           <Link
             href="/"
