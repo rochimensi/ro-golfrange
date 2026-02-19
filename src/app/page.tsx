@@ -51,7 +51,7 @@ export default function WelcomePage() {
         <button
           type="button"
           onClick={() => setAdminModalOpen(true)}
-          className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 text-white/20 hover:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 rounded"
+          className="absolute left-2 top-2 p-1.5 text-white/20 hover:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 rounded"
           aria-label="Admin"
         >
           <Cog6ToothIcon className="h-5 w-5 md:h-6 md:w-6" />
@@ -83,7 +83,7 @@ export default function WelcomePage() {
           {/* Main CTA: Comprar canasto */}
           <Link
             href="/purchase"
-            className="flex flex-col items-center gap-4 rounded-2xl border-2 border-amber-400/50 bg-secondary-bg p-6 text-center transition hover:border-amber-400 hover:bg-[#f5efc4] md:min-h-0 md:flex-row md:justify-center md:gap-8 md:py-8"
+            className="flex flex-col items-center gap-4 rounded-2xl border-2 border-amber-400/50 bg-[#f5efc4] p-6 text-center transition hover:border-amber-400 hover:bg-[#efe8b8] md:min-h-0 md:flex-row md:justify-center md:gap-8 md:py-8"
           >
             <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-[#102C1A]/10 md:h-24 md:w-24">
               <ShoppingCartIcon className="h-12 w-12 text-[#102C1A] md:h-14 md:w-14" />
