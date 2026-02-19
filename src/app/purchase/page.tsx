@@ -60,6 +60,7 @@ export default function PurchasePage() {
     if (customerType === "SOCIO" && associateNumber.trim()) {
       params.set("associateNumber", associateNumber.trim());
     }
+    params.set("idempotencyKey", crypto.randomUUID());
     router.push(`/thank-you?${params.toString()}`);
   };
 

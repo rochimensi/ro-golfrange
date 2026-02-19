@@ -2,6 +2,9 @@ export type CustomerType = "SOCIO" | "INVITADO";
 export type PaymentMethod = "CASH" | "TRANSFER";
 export type FlowType = "voucher" | "sportclub" | "purchase";
 
+/** Valid flow values for URL/API validation */
+export const FLOWS: FlowType[] = ["purchase", "voucher", "sportclub"];
+
 export const BASKET_SIZES = [30, 60, 100] as const;
 export type BasketSize = (typeof BASKET_SIZES)[number];
 

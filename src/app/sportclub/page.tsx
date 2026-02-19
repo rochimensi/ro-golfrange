@@ -15,6 +15,7 @@ export default function SportClubPage() {
       balls: String(SPORTCLUB_BALLS),
       amount: "0",
     });
+    params.set("idempotencyKey", crypto.randomUUID());
     router.push(`/thank-you?${params.toString()}`);
   };
 

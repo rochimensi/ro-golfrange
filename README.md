@@ -117,15 +117,41 @@ Create a `.env.local` file in the root directory with the following variables:
 |----------|-------------|---------|----------|
 | `NEXT_PUBLIC_ADMIN_PIN` | 4-digit PIN for admin panel access | `1234` | No |
 | `NEXT_PUBLIC_OPERATING_HOURS` | Operating hours text displayed in floating buttons | `Todos los días de 8hs a 18hs` | No |
+| `DATABASE_URL` | Local Postgres connection string (e.g. `postgresql://user@localhost:5432/golfrange`) | — | Yes (local) |
+| `POSTGRES_URL` | Production Postgres connection string (Vercel env; Neon pooled URL or other) | — | Yes (Vercel deployment) |
 
 ### Payment Configuration
 
-Payment details are configured in `src/lib/constants.ts`:
-- Transfer alias: `ro.golfrange`
-- Transfer account holder: `Antonio Omar Peralta`
-- Transfer label: `Mercado Pago`
+Payment details are configured in `src/lib/constants.ts`. To modify these, edit the constants file directly.
 
-To modify these, edit the constants file directly.
+### Database (Drizzle + PostgreSQL)
+
+Transactions (purchases, voucher redemptions, SportClub) are stored in PostgreSQL. The app uses [Drizzle ORM](https://orm.drizzle.team/) with the `postgres` driver (works locally and on Vercel).
+
+1. **Create a Postgres database**  
+   Use [Vercel Marketplace](https://vercel.com/marketplace?category=storage&search=postgres) (e.g. Neon) or any Postgres provider. Copy the connection string.
+
+2. **Set connection string**  
+   - **Local**: `DATABASE_URL` in `.env.local` (e.g. `postgresql://user@localhost:5432/golfrange`).
+   - **Vercel**: `POSTGRES_URL` in project Environment Variables (use Neon **pooled** URL for production).
+   The app uses `POSTGRES_URL` when set, otherwise `DATABASE_URL`.
+
+3. **Run migrations** (first time or after schema changes):
+   ```bash
+   npm run db:generate   # generate migration from schema
+   npm run db:migrate    # apply migrations
+   ```
+   Optional: `npm run db:studio` opens Drizzle Studio to inspect data.
+
+### DB setup (local + Vercel)
+
+1. **Create a Postgres DB** — [Neon](https://neon.tech) or [Vercel Marketplace → Neon](https://vercel.com/marketplace/neon). Copy **connection string** (local) and **pooled connection string** (Vercel).
+
+2. **Local** — Add `DATABASE_URL` to `.env.local` (non-pooled URL). Run `npm run db:migrate` once, then `npm run dev`.
+
+3. **Vercel** — In project **Settings → Environment Variables**, add `POSTGRES_URL` (pooled URL) for Production/Preview. Run `npm run db:migrate` once with that URL (e.g. set `POSTGRES_URL` temporarily in `.env.local`). Redeploy so the app uses the variable.
+
+4. **One DB or two** — Same DB: use one Neon project and the same pooled URL in both places. Separate: two Neon projects, dev URL in `.env.local`, prod pooled URL in Vercel; run migrations once per DB.
 
 ## 📱 Usage
 
@@ -159,6 +185,7 @@ To modify these, edit the constants file directly.
 - **Framework**: [Next.js 16](https://nextjs.org/) (React 19)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS 4
+- **Database**: [Drizzle ORM](https://orm.drizzle.team/) + PostgreSQL ([Neon](https://neon.tech/) serverless driver)
 - **Icons**: Heroicons
 - **QR Codes**: qrcode.react (for WhatsApp catalog and SportClub verification)
 - **Fonts**: Geist Sans, Geist Mono, Bakbak One
@@ -174,10 +201,14 @@ ro-golfrange/
 │   │   ├── voucher/      # Voucher redemption
 │   │   ├── sportclub/    # SportClub benefits
 │   │   └── thank-you/    # Purchase confirmation
+│   │   └── api/          # API routes (e.g. POST /api/transactions)
 │   ├── components/       # React components
 │   │   ├── Clock.tsx
 │   │   ├── FloatingButtons.tsx
 │   │   └── WhatsAppIcon.tsx
+│   ├── db/               # Drizzle schema and client
+│   │   ├── schema.ts     # transactions table
+│   │   └── index.ts      # db client (Neon)
 │   └── lib/              # Utilities and constants
 │       ├── constants.ts  # App configuration
 │       ├── types.ts      # TypeScript types
@@ -192,23 +223,13 @@ ro-golfrange/
 
 Pricing is configured in `src/lib/types.ts`:
 
-**Member Prices (SOCIO)**:
-- 30 balls: $6,000
-- 60 balls: $10,000
-- 100 balls: $14,000
-
-**Guest Prices (INVITADO)**:
-- 30 balls: $8,000
-- 60 balls: $12,000
-- 100 balls: $16,000
-
 ### Operating Hours
 
 Operating hours text is displayed in the floating buttons component. Configure via `NEXT_PUBLIC_OPERATING_HOURS` environment variable (default: "Todos los días de 8hs a 18hs").
 
 ## 📝 License
 
-Private project for R&O Golf Range / Academia Omar Peralta
+Private project for R&O Golf Range
 
 ## 🤝 Support
 

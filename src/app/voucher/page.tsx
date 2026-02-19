@@ -18,6 +18,7 @@ export default function VoucherPage() {
       balls: String(VOUCHER_BALLS),
       amount: "0",
     });
+    params.set("idempotencyKey", crypto.randomUUID());
     router.push(`/thank-you?${params.toString()}`);
   };
 
