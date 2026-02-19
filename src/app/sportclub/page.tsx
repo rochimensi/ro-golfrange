@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
-import { APP_NAME, SPORTCLUB_BALLS } from "@/lib/constants";
+import { APP_NAME, SPORTCLUB_AMOUNT, SPORTCLUB_BALLS } from "@/lib/constants";
 import { useRecordTransaction } from "@/lib/useRecordTransaction";
 import { TransactionErrorAlert } from "@/components/TransactionErrorAlert";
 
@@ -14,7 +14,7 @@ export default function SportClubPage() {
     recordAndNavigate({
       flow: "sportclub",
       balls: SPORTCLUB_BALLS,
-      amount: 0,
+      amount: SPORTCLUB_AMOUNT,
       idempotencyKey: crypto.randomUUID(),
     });
   };

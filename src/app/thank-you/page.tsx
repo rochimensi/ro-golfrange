@@ -1,14 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/solid";
 import { APP_NAME } from "@/lib/constants";
 
 export default function ThankYouPage() {
   return (
     <div className="flex min-h-screen flex-col text-white">
-      <header className="border-b border-white/10 px-6 py-6 text-center">
-        <h1 className="font-heading text-xl font-bold md:text-2xl">
+      <header className="relative flex items-center border-b border-white/10 px-6 py-4">
+        <Link
+          href="/"
+          className="relative z-10 inline-flex items-center gap-2 text-base text-white/90 hover:text-white md:gap-2.5 md:text-lg"
+        >
+          <ArrowLeftIcon className="h-6 w-6 md:h-7 md:w-7" />
+          INICIO
+        </Link>
+        <h1 className="absolute left-0 right-0 text-center font-heading text-xl font-bold md:text-2xl pointer-events-none">
           {APP_NAME}
         </h1>
       </header>

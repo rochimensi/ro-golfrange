@@ -6,7 +6,7 @@ import {
   ArrowLeftIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/outline";
-import { APP_NAME, VOUCHER_BALLS } from "@/lib/constants";
+import { APP_NAME, VOUCHER_AMOUNT, VOUCHER_BALLS } from "@/lib/constants";
 import { useRecordTransaction } from "@/lib/useRecordTransaction";
 import { TransactionErrorAlert } from "@/components/TransactionErrorAlert";
 
@@ -17,7 +17,7 @@ export default function VoucherPage() {
     recordAndNavigate({
       flow: "voucher",
       balls: VOUCHER_BALLS,
-      amount: 0,
+      amount: VOUCHER_AMOUNT,
       idempotencyKey: crypto.randomUUID(),
     });
   };

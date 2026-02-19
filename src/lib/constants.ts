@@ -1,7 +1,12 @@
 export const APP_NAME = "R&O Golf Range";
 
 export const VOUCHER_BALLS = 20;
+/** Tracked amount for voucher transactions (internal use only) */
+export const VOUCHER_AMOUNT = 4000;
+
 export const SPORTCLUB_BALLS = 30;
+/** Tracked amount for sportclub transactions (internal use only) */
+export const SPORTCLUB_AMOUNT = 6000;
 
 export const TRANSFER_ALIAS = "ro.golfrange";
 export const TRANSFER_TITULAR = "Antonio Omar Peralta";
