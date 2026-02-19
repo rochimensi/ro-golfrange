@@ -107,6 +107,12 @@ export default function PurchasePage() {
                   INVITADO
                 </button>
               </div>
+              <Link
+                href="/"
+                className="mt-6 block w-full rounded-xl border border-white/20 bg-transparent px-4 py-3 text-center font-medium text-white/80 transition hover:bg-white/5 hover:text-white"
+              >
+                Cancelar
+              </Link>
             </>
           )}
 
@@ -188,6 +194,12 @@ export default function PurchasePage() {
                   </button>
                 ))}
               </div>
+              <Link
+                href="/"
+                className="mt-6 block w-full rounded-xl border border-white/20 bg-transparent px-4 py-3 text-center font-medium text-white/80 transition hover:bg-white/5 hover:text-white"
+              >
+                Cancelar
+              </Link>
             </>
           )}
 
@@ -220,6 +232,12 @@ export default function PurchasePage() {
                   Transferencia
                 </button>
               </div>
+              <Link
+                href="/"
+                className="mt-6 block w-full rounded-xl border border-white/20 bg-transparent px-4 py-3 text-center font-medium text-white/80 transition hover:bg-white/5 hover:text-white"
+              >
+                Cancelar
+              </Link>
             </>
           )}
 
@@ -286,6 +304,12 @@ export default function PurchasePage() {
                     >
                       Confirmar venta
                     </button>
+                    <Link
+                      href="/"
+                      className="mt-3 block w-full rounded-xl border border-white/20 bg-transparent px-4 py-3 text-center font-medium text-white/80 transition hover:bg-white/5 hover:text-white"
+                    >
+                      Cancelar
+                    </Link>
                 </div>
                 </div>
               </div>
@@ -335,6 +359,12 @@ export default function PurchasePage() {
                 >
                   Confirmar venta
                 </button>
+                <Link
+                  href="/"
+                  className="mt-3 block w-full rounded-xl border border-white/20 bg-transparent px-4 py-3 text-center font-medium text-white/80 transition hover:bg-white/5 hover:text-white"
+                >
+                  Cancelar
+                </Link>
               </div>
             )
             );

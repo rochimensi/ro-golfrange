@@ -67,6 +67,12 @@ export default function VoucherPage() {
           >
             Canjear 20 pelotas gratis
           </button>
+          <Link
+            href="/"
+            className="mt-4 block w-full rounded-xl border border-white/20 bg-transparent px-4 py-3 text-center font-medium text-white/80 transition hover:bg-white/5 hover:text-white"
+          >
+            Cancelar
+          </Link>
         </div>
       </main>
     </div>

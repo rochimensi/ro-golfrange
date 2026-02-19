@@ -57,6 +57,12 @@ export default function SportClubPage() {
           >
             Confirmar 30 pelotas gratis
           </button>
+          <Link
+            href="/"
+            className="mt-4 block w-full rounded-xl border border-white/20 bg-transparent px-4 py-3 text-center text-lg font-medium text-white/80 transition hover:bg-white/5 hover:text-white md:py-4"
+          >
+            Cancelar
+          </Link>
         </div>
       </main>
     </div>
