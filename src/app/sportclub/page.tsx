@@ -24,9 +24,9 @@ export default function SportClubPage() {
       <header className="relative flex items-center border-b border-white/10 px-6 py-4">
         <Link
           href="/"
-          className="relative z-10 inline-flex items-center gap-2 text-base text-white/90 hover:text-white md:gap-2.5 md:text-lg"
+          className="relative z-10 inline-flex items-center gap-2 rounded-lg border border-white/20 bg-transparent px-3 py-2 text-base text-white/90 transition hover:bg-white/5 hover:text-white md:gap-2.5 md:text-lg"
         >
-          <ArrowLeftIcon className="h-6 w-6 md:h-7 md:w-7" />
+          <ArrowLeftIcon className="h-5 w-5 md:h-6 md:w-6" />
           INICIO
         </Link>
         <h1 className="absolute left-0 right-0 text-center font-heading text-xl font-bold md:text-2xl">
@@ -62,7 +62,7 @@ export default function SportClubPage() {
             type="button"
             onClick={handleConfirm}
             disabled={isSubmitting}
-            className="mt-8 w-full rounded-xl bg-amber-600 px-6 py-5 text-lg font-semibold text-white transition hover:bg-amber-500 md:mt-10 md:py-6 md:text-xl disabled:opacity-70 disabled:pointer-events-none"
+            className="mt-8 flex h-button-primary w-full items-center justify-center rounded-xl bg-amber-600 px-6 text-lg font-semibold text-white transition hover:bg-amber-500 md:text-xl disabled:opacity-70 disabled:pointer-events-none"
           >
             {isSubmitting ? "Guardando…" : "Confirmar 30 pelotas gratis"}
           </button>

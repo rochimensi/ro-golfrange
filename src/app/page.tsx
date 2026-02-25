@@ -7,7 +7,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import {
   TicketIcon,
   ShoppingCartIcon,
-  Cog6ToothIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
 import { APP_NAME, ADMIN_PIN } from "@/lib/constants";
 
@@ -51,10 +51,10 @@ export default function WelcomePage() {
         <button
           type="button"
           onClick={() => setAdminModalOpen(true)}
-          className="absolute left-2 top-2 p-1.5 text-white/20 hover:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 rounded"
+          className="absolute left-2 top-2 flex items-center justify-center rounded-lg border border-white/20 bg-transparent p-2 text-white/80 transition hover:bg-white/5 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/30"
           aria-label="Admin"
         >
-          <Cog6ToothIcon className="h-5 w-5 md:h-6 md:w-6" />
+          <UserIcon className="h-5 w-5 md:h-6 md:w-6" />
         </button>
         <Image
           src="/Logo_blank.png"
